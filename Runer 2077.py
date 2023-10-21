@@ -94,7 +94,7 @@ while True:
             if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
                 game_active = True
                 snail_rect.left = 800
-                start_time = int (pygame.time.get_ticks() / 1000)
+                start_time = int (pygame.time.get_ticks() / 1000) 
 
         if event.type == obstacle_timer:
             print("test")                    
