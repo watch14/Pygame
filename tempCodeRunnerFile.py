@@ -1,1 +1,1 @@
-len(player_walk)
+'fly','snail','snail','snail'
