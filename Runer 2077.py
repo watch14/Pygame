@@ -1,5 +1,6 @@
 import pygame
 from sys import exit
+from random import randint
 
 def display_score():
 
@@ -9,6 +10,18 @@ def display_score():
 
     screen.blit(score_surf, score_rect)
     return curent_time
+
+def obstacle_movement(obstacle_list):
+    if obstacle_list:
+        for obstacle_rect in obstacle_list:
+            obstacle_rect.x -= 3.75
+
+            screen.blit(snail_img, obstacle_rect)
+
+        obstacle_list = [obstacle for obstacle in obstacle_list if obstacle.x > -100]
+        
+        return obstacle_list
+    else : return []
 
 pygame.init()
 
@@ -45,16 +58,18 @@ player_stand= pygame.transform.scale_by(player_stand, 2)
 stand_rect = player_stand.get_rect(center = (400, 200))
 
 
-
 press_surf = font_test.render('Press SPACE to Restart', False, 'white')
 press_rect = press_surf.get_rect(center = (400, 330))
 ##############################################################################
 
 
-
+## obstacles
 # snail
 snail_img = pygame.image.load('graphics/snail/snail1.png').convert_alpha()  
 snail_rect = snail_img.get_rect(midbottom = (600, 300))
+
+obstacle_rect_list = []
+
 
 #player
 player_img = pygame.image.load('graphics/player/player_walk_1.png').convert_alpha()
@@ -64,7 +79,7 @@ player_gravity = 0
 
 #timer
 obstacle_timer = pygame.USEREVENT + 1
-pygame.time.set_timer(obstacle_timer, 900)
+pygame.time.set_timer(obstacle_timer, 1500)
 
 #game variable
 game_active = False
@@ -90,14 +105,15 @@ while True:
                 if event.key == pygame.K_SPACE: 
                         if player_rect.bottom >= 300: player_gravity = -11
         
+            if event.type == obstacle_timer:
+                obstacle_rect_list.append(snail_img.get_rect(midbottom = (randint(900, 1100), 300)))
+
         else:
             if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
                 game_active = True
                 snail_rect.left = 800
                 start_time = int (pygame.time.get_ticks() / 1000) 
 
-        if event.type == obstacle_timer:
-            print("test")                    
 
     if game_active:
         ## all elaments
@@ -108,10 +124,10 @@ while True:
 
         score = display_score()
 
-        # snail / movement
-        snail_rect.x -= 3.5
-        if snail_rect.right < 0: snail_rect.left = 850
-        screen.blit(snail_img, snail_rect)
+        # # snail / movement
+        # snail_rect.x -= 3.5
+        # if snail_rect.right < 0: snail_rect.left = 850
+        # screen.blit(snail_img, snail_rect)
 
         # player / jump
         player_gravity += 0.35
@@ -119,6 +135,10 @@ while True:
         if player_rect.bottom >= 300: player_rect.bottom = 300
         screen.blit(player_img, player_rect)
         
+        #obstacle mouvement
+        obstacle_rect_list =  obstacle_movement(obstacle_rect_list)
+
+
         #collision
         if snail_rect.colliderect(player_rect):
             game_active = False
