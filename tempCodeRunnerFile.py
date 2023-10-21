@@ -1,1 +1,1 @@
-'fly','snail','snail','snail'
+0.
