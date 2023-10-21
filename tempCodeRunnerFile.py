@@ -1,2 +1,1 @@
-    if event.type == obstacle_timer:
-                print("test")     
+len(player_walk)
