@@ -101,7 +101,7 @@ def collision_sprite():
         return False
     else : return True
 
-
+c = "font/Pixeltype.ttf"
 
 
 pygame.init()
