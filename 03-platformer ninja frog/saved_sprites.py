@@ -25,8 +25,8 @@ def flip(sprites):
 
 # sprite sheets
 def load_sprite_sheets(dir1, dir2, width, height, direction=False):
-    script_dir = os.path.dirname(os.path.abspath(__file__))
-    path = os.path.join(script_dir, "img", dir1, dir2)
+    dir_path = os.path.dirname(os.path.abspath(__file__))
+    path = join(dir_path, "img", dir1, dir2)
     images = [f for f in listdir(path) if isfile(join(path, f))]
 
     all_sprites = {}
