@@ -12,14 +12,17 @@ pygame.display.set_caption("Ninja Frog V") #caption
 BG_COLOR = (87, 25, 35)
 WIDTH, HEIGHT  = 1000, 800  #screen width an d height
 FPS = 60
-PLAYER_VEL = 5     # player mevement speed
+PLAYER_VEL = 10     # player mevement speed
 
 window = pygame.display.set_mode((WIDTH, HEIGHT))
 
 ################################################# player
 #player calss
 class Player(pygame.sprite.Sprite):
+
     COLOR = (255, 0, 0)
+    GRAVITY = 1
+    
     def __init__(self, x, y, width, height):
         self.rect = pygame.Rect(x, y ,width, height)
         self.x_vel = 0     # movement
@@ -27,6 +30,7 @@ class Player(pygame.sprite.Sprite):
         self.mask = 0
         self.direction = "left"
         self.animation_count = 0
+        self.fall_count = 0
     
     def move(self , dx, dy):  
         self.rect.x += dx   # left / right
@@ -45,10 +49,15 @@ class Player(pygame.sprite.Sprite):
             self.animation_count = 0
 
     def loop(self, fps):
+        self.y_vel += min(1, (self.fall_count / fps) * self.GRAVITY) #gravity
         self.move(self.x_vel, self.y_vel)
+
+        self.fall_count += 1
+
 
     def draw(self, win):
         pygame.draw.rect(win, self.COLOR, self.rect)
+
 
 #player movement
 def handle_move(player):
@@ -56,9 +65,9 @@ def handle_move(player):
     
     player.x_vel = 0
 
-    if keys[pygame.K_LEFT]:   #left key
+    if keys[pygame.K_LEFT] or keys[pygame.K_q]:  # Left key or 'a' key
         player.move_left(PLAYER_VEL)
-    if keys[pygame.K_RIGHT]:   #right key
+    if keys[pygame.K_RIGHT] or keys[pygame.K_d]:  # Right key or 'd' key
         player.move_right(PLAYER_VEL)
 
 ################################################# player
