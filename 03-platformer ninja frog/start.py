@@ -47,8 +47,8 @@ class Player(pygame.sprite.Sprite):
     def loop(self, fps):
         self.move(self.x_vel, self.y_vel)
 
-    def loop(self, fps):
-        self.move(self.x_vel, self.y_vel)
+    def draw(self, win):
+        pygame.draw.rect(win, self.COLOR, self.rect)
 
 #player movement
 def handle_move(player):
@@ -90,6 +90,7 @@ def get_background(name):
 def draw(window, background, bg_image, player):
     for tile in background:
         window.blit(bg_image, tile)    # display background in screen
+
 
     player.draw(window)   # draw player
     pygame.display.update()
