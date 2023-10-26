@@ -25,7 +25,8 @@ def flip(sprites):
 
 # sprite sheets
 def load_sprite_sheets(dir1, dir2, width, height, direction=False):
-    path = join("img", dir1, dir2)
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    path = os.path.join(script_dir, "img", dir1, dir2)
     images = [f for f in listdir(path) if isfile(join(path, f))]
 
     all_sprites = {}
@@ -89,8 +90,8 @@ class Player(pygame.sprite.Sprite):
 
 
     def draw(self, win):
-        self.SPRITES = self.SPRITES["idle" + self.direction][0]
-        win.blit(self.sprite, (self.rect.x, self.y))
+        self.sprite = self.SPRITES["idle_" + self.direction][0]
+        win.blit(self.sprite,(self.rect.x, self.rect.y))
 
 #player movement
 def handle_move(player):
